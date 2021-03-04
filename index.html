@@ -22,21 +22,42 @@
         <header>
             <h1>Weather Dashboard</h1>
         </header>
-        <section class="container">
-            <div class="search">
-                <!--Search label/input goes here-->
-            </div>
-            <div class="saved-searches">
-                <!-- Past searches belong here -->
+        <section class="col-lg-3 search">
+            <form >
+                <!-- Search label/input goes here -->
+                <div class="form-group">
+                    <label for="searchInput" class="searchLabel">Select your City:</label>
+                <div class="form-row align-items-center">
+                    <div class="col-9 my-1">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Columbus,Oh">
+                    </div>
+                    <div class="col-auto my-1 ">
+                        <button type="submit" class="btn btn-primary" id="searchButton"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                </div>
+            </form>
+            <div class="searches">
+                <div class = "saved-searches">
+                    <!--Appending Buttons from past searches -->
+                    
+                </div>
+                <h2>Featured Searches</h2>
+                <div class="featured-searches">
+                    <!--Featured searches (buttons) here on page load-->
+                    
+                </div>
+
             </div>
         </section>
-        <section class="container">
-            <div class="results">
+        <section class="information container col-lg-9 ">
                 <!-- Search results belong here -->
-            </div>
-            <div class="forecast">
+
                 <!-- Five day forecast here, seperate containers -->
-            </div>
+
         </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="assets/js/script.js"></script>
     </body>
 </html>
