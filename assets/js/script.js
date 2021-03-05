@@ -5,7 +5,7 @@ const ApiKey = '5a1361306ef906fe293b5db1d3f1f98c'
 let searches = [];
 let searchBtn = document.getElementById('search-button')
 let featuredSearchesText = ['Austin', 'Chicago', 'New York', 'Orlando', 'Seattle'];
-let citySearched = "Atlanta";
+let citySearched = "Columbus";
  
 // On page load, there needs to be a render function using api's for a preset city ie. columbus
 function renderPage(){
@@ -44,6 +44,33 @@ function cityData(){
 function weatherData(latitude,longitude){
 let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=minutely,hourly,alerts&appid=" + ApiKey;
     //fetch goes here
+    fetch(oneCallApi).then( function (response){
+        if(response.ok){
+            response.json().then(function (data){
+                console.log(data)
+                console.log(data.current.temp)
+                let currentTemp = "Temperature: " + ((data.current.temp - 273.15) * 1.8 + 32) + "\u00B0F"
+                console.log(currentTemp) 
+                let currentHumidity = "Humidity: " + data.current.humidity + "%";
+                console.log(currentHumidity);
+                let currentWindSpeed = "Wind Speed: " + data.current.wind_speed + " MPH"
+                console.log(currentWindSpeed);
+                let currentUVIndex = data.current.uvi;
+                console.log(currentUVIndex);
+
+
+
+
+
+
+
+
+
+
+
+
+        })
+    }})
 }
 
 
