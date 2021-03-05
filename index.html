@@ -22,8 +22,9 @@
         <header>
             <h1>Weather Dashboard</h1>
         </header>
-        <section class="col-lg-3 search">
-            <form >
+        <main class="container-fluid row">
+        <section class="col-3 search">
+            <form>
                 <!-- Search label/input goes here -->
                 <div class="form-group">
                     <label for="searchInput" class="searchLabel">Select your City:</label>
@@ -45,17 +46,18 @@
                 <h2>Featured Searches</h2>
                 <div class="featured-searches">
                     <!--Featured searches (buttons) here on page load-->
-                    
-                </div>
 
+                </div>
             </div>
         </section>
-        <section class="information container col-lg-9 ">
+        <section class="col-9 ">
                 <!-- Search results belong here -->
-
+            <div class="results"></div>
                 <!-- Five day forecast here, seperate containers -->
-
+            <div id="forecast"></div>
         </section>
+    </main>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="assets/js/script.js"></script>
