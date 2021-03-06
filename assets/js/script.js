@@ -54,7 +54,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                 
                 let currentIcon = data.current.weather[0].icon;
                 console.log(currentIcon)
-                let currentTemp = "Temperature: " + ((data.current.temp - 273.15) * 1.8 + 32) + "\u00B0F"
+                let currentTemp = "Temperature: " + ((data.current.temp - 273.15) * 1.8 + 32).toFixed(2) + "\u00B0F"
                 console.log(currentTemp) 
                 let currentHumidity = "Humidity: " + data.current.humidity + "%";
                 console.log(currentHumidity);
@@ -64,15 +64,42 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                 console.log(currentUVIndex);
 
                 // loop for forecast cards + information
-                for (let i=0; i < 5; i++){
+               
+                for (let i=0; i < 5; i++){    
+                    let forecast = document.querySelector('#forecast')
+                    
                     let forecastDate = moment().add((i + 1), 'd').format('L');
                     console.log(forecastDate);
-                    let forecastIcon = data.daily[i].weather[0].icon;
+                    let forecastIcon = "https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
                     console.log(forecastIcon);
-                    let forecastTemp = "Temp: " + ((data.daily[i].temp - 273.15) * 1.8 + 32) + "\u00B0F"
+                    let forecastTemp = "Temp: " + ((data.daily[i].temp.day - 273.15) * 1.8 + 32).toFixed(2) + "\u00B0F"
+                    console.log(forecastTemp);
+                    console.log(forecastTemp);
                     console.log(forecastTemp);
                     let forecastHumidity = "Humidity: " + data.daily[i].humidity + "%";
                     console.log(forecastHumidity);
+
+                    //creating, adding content and appending the forecast cards/
+                    let forecastCard = document.createElement('div');
+                    forecast.appendChild(forecastCard);
+                    
+                    let forecastDateDisplay = document.createElement('h4')
+                    forecastDateDisplay.textContent = forecastDate;
+                    forecastCard.appendChild(forecastDateDisplay);
+
+                    let forecastIconDisplay = document.createElement('img')
+                    forecastIconDisplay.src = forecastIcon;
+                    forecastCard.appendChild(forecastIconDisplay);
+
+                    let forecastTempDisplay = document.createElement('p');
+                    forecastTempDisplay.textContent = forecastTemp;
+                    forecastCard.appendChild(forecastTempDisplay);
+                    
+                    let forecastHumidityDisplay = document.createElement('p');
+                    forecastHumidityDisplay.textContent = forecastHumidity;
+                    forecastCard.appendChild(forecastHumidityDisplay);
+            
+
 
                 }
 
