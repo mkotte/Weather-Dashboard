@@ -3,41 +3,34 @@
 const ApiKey = '5a1361306ef906fe293b5db1d3f1f98c'
 // search array to implement / save searches
 let searches = [];
-let searchBtn = document.getElementById('search-button')
+let searchBtn = document.getElementById('searchButton')
 let featuredSearchesText = ['Austin', 'Chicago', 'New York', 'Orlando', 'Seattle'];
 let citySearched = "Columbus";
- 
+
 // On page load, there needs to be a render function using api's for a preset city ie. columbus
-function renderPage(){
-    
-    
- 
-    
-    // declaring + appending elements of the container containing the results
 
-    
+function renderPage(event){
+    event.preventDefault();
+    //render featured + saved searches
+    console.log('12')
 }
-renderPage();
 
-//function calling api using "fetch off of an event listener"
+
+
+
 let cityUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&appid=' + ApiKey
+//function calling api using "fetch off of an event listener"
 function cityData(){
+    
     fetch (cityUrl).then( function (response){
         if(response.ok){
             response.json().then(function (data){
-                console.log(data)
                 let latitude = data.coord.lat;
                 let longitude = data.coord.lon;
-                console.log(longitude + ", " + latitude)
                 let citySearched = data.name
                 console.log(citySearched)
-                let currentDate = "(" + moment().format('L') + ")"
-                console.log(currentDate)
-
-
+               
                 weatherData(latitude,longitude)
-
-
             }) 
         }
     })
@@ -49,45 +42,65 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
     fetch(oneCallApi).then( function (response){
         if(response.ok){
             response.json().then(function (data){
-                console.log(data)
-                console.log(data.current.temp)
-                
-                let currentIcon = data.current.weather[0].icon;
-                console.log(currentIcon)
-                let currentTemp = "Temperature: " + ((data.current.temp - 273.15) * 1.8 + 32).toFixed(2) + "\u00B0F"
-                console.log(currentTemp) 
-                let currentHumidity = "Humidity: " + data.current.humidity + "%";
-                console.log(currentHumidity);
-                let currentWindSpeed = "Wind Speed: " + data.current.wind_speed + " MPH"
-                console.log(currentWindSpeed);
-                let currentUVIndex = "" +data.current.uvi+ "";
-                console.log(currentUVIndex);
+                let currentDate = "(" + moment().format('L') + ")";
+                let currentIcon = "https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";                
+                let currentTemp = "Temperature: " + ((data.current.temp - 273.15) * 1.8 + 32).toFixed(1) + " \u00B0F";                
+                let currentHumidity = "Humidity: " + data.current.humidity + "%";                
+                let currentWindSpeed = "Wind Speed: " + data.current.wind_speed + " MPH";                
+                let currentUVIndex = document.createElement('span');
+                currentUVIndex.textContent = data.current.uvi;
+           
+                let currentDisplay = document.querySelector('#header-results');
+                let cityDisplay = document.createElement('h2');
+                cityDisplay.textContent = citySearched;
+                currentDisplay.appendChild(cityDisplay);
+                        
+                let dateDisplay = document.createElement('h2');
+                dateDisplay.textContent = currentDate;
+                currentDisplay.appendChild(dateDisplay);
+
+                let iconDisplay = document.createElement('img');
+                iconDisplay.src = currentIcon;
+                currentDisplay.appendChild(iconDisplay);
+
+                let display = document.querySelector('#results')
+                let tempDisplay = document.createElement('h3')
+                tempDisplay.textContent = currentTemp;
+                display.appendChild(tempDisplay);
+
+                let humidityDisplay = document.createElement('h3');
+                humidityDisplay.textContent = currentHumidity;
+                display.appendChild(humidityDisplay);
+
+                let windDisplay = document.createElement('h3');
+                windDisplay.textContent = currentWindSpeed;
+                display.appendChild(windDisplay);
+
+                let uviDisplay = document.createElement('h3');
+                uviDisplay.textContent = "UV Index: ";
+                display.appendChild(uviDisplay);
+                uviDisplay.appendChild(currentUVIndex)
+
+
 
                 // loop for forecast cards + information
-               
                 for (let i=0; i < 5; i++){    
-                    let forecast = document.querySelector('#forecast')
                     
                     let forecastDate = moment().add((i + 1), 'd').format('L');
-                    console.log(forecastDate);
                     let forecastIcon = "https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
-                    console.log(forecastIcon);
-                    let forecastTemp = "Temp: " + ((data.daily[i].temp.day - 273.15) * 1.8 + 32).toFixed(2) + "\u00B0F"
-                    console.log(forecastTemp);
-                    console.log(forecastTemp);
-                    console.log(forecastTemp);
+                    let forecastTemp = "Temp: " + ((data.daily[i].temp.day - 273.15) * 1.8 + 32).toFixed(2) + " \u00B0F";
                     let forecastHumidity = "Humidity: " + data.daily[i].humidity + "%";
-                    console.log(forecastHumidity);
 
                     //creating, adding content and appending the forecast cards/
+                    let forecast = document.querySelector('#forecast') ;
                     let forecastCard = document.createElement('div');
                     forecast.appendChild(forecastCard);
                     
-                    let forecastDateDisplay = document.createElement('h4')
+                    let forecastDateDisplay = document.createElement('h4');
                     forecastDateDisplay.textContent = forecastDate;
                     forecastCard.appendChild(forecastDateDisplay);
 
-                    let forecastIconDisplay = document.createElement('img')
+                    let forecastIconDisplay = document.createElement('img');
                     forecastIconDisplay.src = forecastIcon;
                     forecastCard.appendChild(forecastIconDisplay);
 
@@ -98,44 +111,22 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                     let forecastHumidityDisplay = document.createElement('p');
                     forecastHumidityDisplay.textContent = forecastHumidity;
                     forecastCard.appendChild(forecastHumidityDisplay);
-            
-
-
                 }
-
-                //TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
-                //TODO: style created elements, then update README.
-
-
-
-
-
-
-
-
-
-
+              
         })
     }})
 }
 
 
+
+
+
+//TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
+//TODO: style created elements, then update README.
+
 cityData();
 
-//Input btn listener
-
-
-
-//Render function using API's and Fetch
-
-
-//Saving past searches using local storage
-
-
-
-
-
-// api.openweathermap.org/data/2.5/weather?q=Columbus&appid=5a1361306ef906fe293b5db1d3f1f98c
+searchBtn.addEventListener('submit', renderPage);
 
 
 
