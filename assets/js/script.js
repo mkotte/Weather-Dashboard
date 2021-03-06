@@ -11,15 +11,10 @@ let citySearched = "Columbus";
 function renderPage(){
     
     
-    //variables we need to call/fetch from api
-    let temperature = "";
-    let windSpeed = "";
-    let humidity = "";
-    let uvIndex= "";
-    
+ 
     
     // declaring + appending elements of the container containing the results
-   
+
     
 }
 renderPage();
@@ -34,8 +29,15 @@ function cityData(){
                 let latitude = data.coord.lat;
                 let longitude = data.coord.lon;
                 console.log(longitude + ", " + latitude)
+                let citySearched = data.name
+                console.log(citySearched)
+                let currentDate = "(" + moment().format('L') + ")"
+                console.log(currentDate)
+
 
                 weatherData(latitude,longitude)
+
+
             }) 
         }
     })
@@ -49,16 +51,33 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
             response.json().then(function (data){
                 console.log(data)
                 console.log(data.current.temp)
+                
+                let currentIcon = data.current.weather[0].icon;
+                console.log(currentIcon)
                 let currentTemp = "Temperature: " + ((data.current.temp - 273.15) * 1.8 + 32) + "\u00B0F"
                 console.log(currentTemp) 
                 let currentHumidity = "Humidity: " + data.current.humidity + "%";
                 console.log(currentHumidity);
                 let currentWindSpeed = "Wind Speed: " + data.current.wind_speed + " MPH"
                 console.log(currentWindSpeed);
-                let currentUVIndex = data.current.uvi;
+                let currentUVIndex = "" +data.current.uvi+ "";
                 console.log(currentUVIndex);
 
+                // loop for forecast cards + information
+                for (let i=0; i < 5; i++){
+                    let forecastDate = moment().add((i + 1), 'd').format('L');
+                    console.log(forecastDate);
+                    let forecastIcon = data.daily[i].weather[0].icon;
+                    console.log(forecastIcon);
+                    let forecastTemp = "Temp: " + ((data.daily[i].temp - 273.15) * 1.8 + 32) + "\u00B0F"
+                    console.log(forecastTemp);
+                    let forecastHumidity = "Humidity: " + data.daily[i].humidity + "%";
+                    console.log(forecastHumidity);
 
+                }
+
+                //TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
+                //TODO: style created elements, then update README.
 
 
 
