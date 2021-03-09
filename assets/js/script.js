@@ -1,36 +1,66 @@
 // Variables
 //stringify or not to stringify?
+const display = document.querySelector('#results');
+const forecast =document.querySelector('#forecast') ;
 const ApiKey = '5a1361306ef906fe293b5db1d3f1f98c'
 // search array to implement / save searches
 let searches = [];
 let searchBtn = document.getElementById('searchButton')
 let featuredSearchesText = ['Austin', 'Chicago', 'New York', 'Orlando', 'Seattle'];
 let citySearched = "Columbus";
+let searchInput = document.getElementById('searchInput')
 
 // On page load, there needs to be a render function using api's for a preset city ie. columbus
 
+
+
+
 function renderPage(event){
     event.preventDefault();
+    // wiping page
+    removeAllChildNodes(display);
+    removeAllChildNodes(forecast);
+    //declaring input
+    let cityName = searchInput.value; 
+    console.log(cityName)
     //render featured + saved searches
-    console.log('12')
+    cityData(cityName);
+}
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
 
 
-
-
-let cityUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&appid=' + ApiKey
 //function calling api using "fetch off of an event listener"
-function cityData(){
-    
+function cityData(citySearched){
+    let cityUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&appid=' + ApiKey
+    console.log(citySearched + '   ' + cityUrl)
     fetch (cityUrl).then( function (response){
         if(response.ok){
             response.json().then(function (data){
                 let latitude = data.coord.lat;
                 let longitude = data.coord.lon;
-                let citySearched = data.name
+                let citySearched = data.name;
+                
+                
+                let display = document.querySelector('#results')
+                let currentDisplay = document.createElement('div');
+                currentDisplay.setAttribute('id', 'header-results');
+                display.appendChild(currentDisplay);
+                let cityDisplay = document.createElement('h2');
+                cityDisplay.textContent = citySearched;
+                currentDisplay.appendChild(cityDisplay);
                 console.log(citySearched)
+
+
+
                
                 weatherData(latitude,longitude)
+
+
             }) 
         }
     })
@@ -51,10 +81,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                 currentUVIndex.textContent = data.current.uvi;
            
                 let currentDisplay = document.querySelector('#header-results');
-                let cityDisplay = document.createElement('h2');
-                cityDisplay.textContent = citySearched;
-                currentDisplay.appendChild(cityDisplay);
-                        
+                      
                 let dateDisplay = document.createElement('h2');
                 dateDisplay.textContent = currentDate;
                 currentDisplay.appendChild(dateDisplay);
@@ -63,7 +90,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                 iconDisplay.src = currentIcon;
                 currentDisplay.appendChild(iconDisplay);
 
-                let display = document.querySelector('#results')
+                // let display = document.querySelector('#results')
                 let tempDisplay = document.createElement('h3')
                 tempDisplay.textContent = currentTemp;
                 display.appendChild(tempDisplay);
@@ -92,7 +119,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                     let forecastHumidity = "Humidity: " + data.daily[i].humidity + "%";
 
                     //creating, adding content and appending the forecast cards/
-                    let forecast = document.querySelector('#forecast') ;
+                    // let forecast = document.querySelector('#forecast') ;
                     let forecastCard = document.createElement('div');
                     forecast.appendChild(forecastCard);
                     
@@ -124,9 +151,9 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
 //TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
 //TODO: style created elements, then update README.
 
-cityData();
+cityData(citySearched);
 
-searchBtn.addEventListener('submit', renderPage);
+searchBtn.addEventListener('click', renderPage);
 
 
 
