@@ -22,9 +22,14 @@ function renderPage(event){
     removeAllChildNodes(forecast);
     //declaring input
     let cityName = searchInput.value; 
+    if (searches > 1){
+        searches.push(cityName)
+    } else{searches.unshift(cityName)}
     console.log(cityName)
+    renderSavedSearches(cityName);
     //render featured + saved searches
     cityData(cityName);
+    console.log(searches)
 }
 
 function removeAllChildNodes(parent) {
@@ -32,6 +37,30 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
+function renderSavedSearches(target){
+    let savedSearches = document.querySelector('.saved-searches')
+    let searchHeader = document.createElement('h2')
+    searchHeader.textContent = "Saved Searches"
+    savedSearches.appendChild(searchHeader);
+    featuredButton.setAttribute('class', 'search featuredSearch btn')
+    let savedButton =  document.createElement('button');
+
+    savedButton.textContent = target;
+    savedSearches.appendChild(savedButton);
+
+}
+
+function renderFeaturedSearches(){
+    for (let i = 0; i < featuredSearchesText.length; i++){
+        let featuredButton = document.createElement('button');
+        let featuredSearches = document.getElementById('featured-searches');
+        featuredButton.textContent = featuredSearchesText[i];
+        featuredButton.setAttribute('class', 'search featuredSearch btn')
+        featuredButton.setAttribute('type', 'click')
+        featuredSearches.appendChild(featuredButton);
+    }
+}
+
 
 
 //function calling api using "fetch off of an event listener"
@@ -138,6 +167,8 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                     let forecastHumidityDisplay = document.createElement('p');
                     forecastHumidityDisplay.textContent = forecastHumidity;
                     forecastCard.appendChild(forecastHumidityDisplay);
+                
+                    
                 }
               
         })
@@ -150,7 +181,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
 
 //TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
 //TODO: style created elements, then update README.
-
+renderFeaturedSearches();
 cityData(citySearched);
 
 searchBtn.addEventListener('click', renderPage);

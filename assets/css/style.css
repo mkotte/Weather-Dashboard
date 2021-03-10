@@ -55,6 +55,21 @@ max-height: 38px;
     padding-left:2px;
 }
 
+.featured-searches{
+    color:var(--primary-text);
+}
+
+.featuredSearch{
+    color:var(--secondary-text);
+    width:95%;
+    background-color:var(--background-color);
+    border: 2px solid var(--header-color);
+    padding-top:4px;
+    padding-bottom:4px;
+    padding-left:2px;
+}
+
+
 #results{
     background-color:var(--background-color);
     border: 2px solid var(--header-color);
