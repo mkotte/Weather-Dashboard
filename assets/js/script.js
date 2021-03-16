@@ -1,18 +1,23 @@
 // Variables
 //stringify or not to stringify?
 const display = document.querySelector('#results');
-const forecast =document.querySelector('#forecast') ;
-const ApiKey = '5a1361306ef906fe293b5db1d3f1f98c'
+const forecast =document.querySelector('#forecast');
+const ApiKey = '5a1361306ef906fe293b5db1d3f1f98c';
+
 // search array to implement / save searches
-let searches = [];
-let searchBtn = document.getElementById('searchButton')
+searches = localStorage.getItem('city-vals');
+let searchBtn = document.getElementById('searchButton');
 let featuredSearchesText = ['Austin', 'Chicago', 'New York', 'Orlando', 'Seattle'];
 let citySearched = "Columbus";
-let searchInput = document.getElementById('searchInput')
+let searchInput = document.getElementById('searchInput');
+let savedSearches = document.querySelector('.saved-searches');
+
 
 // On page load, there needs to be a render function using api's for a preset city ie. columbus
 
-
+function grabStoredData(){
+    
+}
 
 
 function renderPage(event){
@@ -20,16 +25,25 @@ function renderPage(event){
     // wiping page
     removeAllChildNodes(display);
     removeAllChildNodes(forecast);
+
     //declaring input
-    let cityName = searchInput.value; 
-    if (searches > 1){
-        searches.push(cityName)
-    } else{searches.unshift(cityName)}
-    console.log(cityName)
-    renderSavedSearches(cityName);
-    //render featured + saved searches
+    let cityName = searchInput.value;
+
+    // generating stored searches
+    let savedButton =  document.createElement('button');
+    savedButton.textContent = cityName;
+    savedButton.setAttribute('class', 'search-vals featuredSearch btn'); 
+    savedSearches.appendChild(savedButton);
+    
+    savedButton.addEventListener('click', function(){
+        cityData(savedButton.textContent)
+        console.log(savedButton.value)
+        removeAllChildNodes(display);
+        removeAllChildNodes(forecast);
+    })
+    
     cityData(cityName);
-    console.log(searches)
+
 }
 
 function removeAllChildNodes(parent) {
@@ -37,28 +51,28 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
-function renderSavedSearches(target){
-    let savedSearches = document.querySelector('.saved-searches')
-    let searchHeader = document.createElement('h2')
-    searchHeader.textContent = "Saved Searches"
-    savedSearches.appendChild(searchHeader);
-    featuredButton.setAttribute('class', 'search featuredSearch btn')
-    let savedButton =  document.createElement('button');
 
-    savedButton.textContent = target;
-    savedSearches.appendChild(savedButton);
 
-}
 
 function renderFeaturedSearches(){
     for (let i = 0; i < featuredSearchesText.length; i++){
         let featuredButton = document.createElement('button');
         let featuredSearches = document.getElementById('featured-searches');
         featuredButton.textContent = featuredSearchesText[i];
-        featuredButton.setAttribute('class', 'search featuredSearch btn')
-        featuredButton.setAttribute('type', 'click')
-        featuredSearches.appendChild(featuredButton);
+        featuredButton.setAttribute('class', 'search-vals featuredSearch btn');
+        featuredButton.setAttribute('type', 'click');
+        featuredSearches.appendChild(featuredButton); 
+        
+        featuredButton.addEventListener('click', function(){
+            cityData(featuredButton.textContent);
+            console.log(featuredButton.value);
+            removeAllChildNodes(display);
+            removeAllChildNodes(forecast);
+        })
+    
     }
+    
+    
 }
 
 
@@ -137,7 +151,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
                 display.appendChild(uviDisplay);
                 uviDisplay.appendChild(currentUVIndex)
 
-
+                
 
                 // loop for forecast cards + information
                 for (let i=0; i < 5; i++){    
@@ -181,8 +195,13 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
 
 //TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
 //TODO: style created elements, then update README.
+grabStoredData()
 renderFeaturedSearches();
 cityData(citySearched);
+
+
+
+
 
 searchBtn.addEventListener('click', renderPage);
 
