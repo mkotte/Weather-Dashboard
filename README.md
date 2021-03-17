@@ -50,7 +50,7 @@ While creating this weather dashboard I:
 
 ## Screenshot
 
-![screenshot of the homework assignment's, finished website](./assets/images/homework06-screenshot.png)
+![screenshot of the homework assignment's, finished website](./assets/images/Homework06-screenshot.png)
 
 ## Links
 
