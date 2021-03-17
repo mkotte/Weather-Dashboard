@@ -5,7 +5,7 @@ const forecast =document.querySelector('#forecast');
 const ApiKey = '5a1361306ef906fe293b5db1d3f1f98c';
 
 // search array to implement / save searches
-searches = localStorage.getItem('city-vals');
+
 let searchBtn = document.getElementById('searchButton');
 let featuredSearchesText = ['Austin', 'Chicago', 'New York', 'Orlando', 'Seattle'];
 let citySearched = "Columbus";
@@ -15,9 +15,7 @@ let savedSearches = document.querySelector('.saved-searches');
 
 // On page load, there needs to be a render function using api's for a preset city ie. columbus
 
-function grabStoredData(){
-    
-}
+
 
 
 function renderPage(event){
@@ -28,19 +26,34 @@ function renderPage(event){
 
     //declaring input
     let cityName = searchInput.value;
+    let searches = [];
+   
+    console.log(searches);
+    localStorage.setItem('search-vals', JSON.stringify(cityName));
+    searches.unshift(JSON.parse(localStorage.getItem('search-vals')));
+    console.log(searches);
 
-    // generating stored searches
-    let savedButton =  document.createElement('button');
-    savedButton.textContent = cityName;
-    savedButton.setAttribute('class', 'search-vals featuredSearch btn'); 
-    savedSearches.appendChild(savedButton);
-    
-    savedButton.addEventListener('click', function(){
-        cityData(savedButton.textContent)
-        console.log(savedButton.value)
-        removeAllChildNodes(display);
-        removeAllChildNodes(forecast);
-    })
+    // if (searches === ''){
+        // generating stored searches
+        let savedButton =  document.createElement('button');
+        savedButton.textContent = cityName;
+        savedButton.setAttribute('class', 'search-vals featuredSearch btn'); 
+        savedSearches.appendChild(savedButton);
+    // }
+    // else{
+    //     for(let i = -1; i < searches.length; i++){
+    //         let savedButton =  document.createElement('button');
+    //         savedButton.textContent = searches[i];
+    //         savedButton.setAttribute('class', 'search-vals featuredSearch btn'); 
+    //         savedSearches.appendChild(savedButton);
+    //     }
+    // }
+    // savedButton.addEventListener('click', function(){
+    //     cityData(savedButton.textContent)
+    //     console.log(savedButton.value)
+    //     removeAllChildNodes(display);
+    //     removeAllChildNodes(forecast);
+    // })
     
     cityData(cityName);
 
@@ -195,7 +208,7 @@ let oneCallApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitu
 
 //TODO: append data to document, add event listener + submitted values, create a featured + recent search list using local storage
 //TODO: style created elements, then update README.
-grabStoredData()
+
 renderFeaturedSearches();
 cityData(citySearched);
 
@@ -204,6 +217,3 @@ cityData(citySearched);
 
 
 searchBtn.addEventListener('click', renderPage);
-
-
-
