@@ -8,6 +8,7 @@
 }
 body{
     background-color:#343434;
+    overflow-x: hidden;
 }
 
 header{
@@ -25,12 +26,14 @@ header h1{
     
 .search{
     background-color: var(--sidebar-color);
+    padding-right: 20px;
+    
 }
 
 .form-group{
     color:var(--primary-text);
     padding-top:20px;
-   ;
+   margin-left: 10px;
 }
 
 .btn i{
@@ -45,6 +48,7 @@ max-height: 38px;
 
 .past-searches{
     color:var(--primary-text);
+    margin-left: 10px;
 
 }
 .past-searches button{
@@ -57,6 +61,7 @@ max-height: 38px;
 
 .featured-searches{
     color:var(--primary-text);
+    margin-left: 10px;
 }
 
 .featuredSearch{
@@ -67,6 +72,7 @@ max-height: 38px;
     padding-top:4px;
     padding-bottom:4px;
     padding-left:2px;
+
 }
 
 
